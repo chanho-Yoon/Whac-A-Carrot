@@ -21,4 +21,4 @@ JavaScript를 활용해서 만든 게임으로 당근을 클릭하는 게
 <img src='/img/afterGame.png' alt='game screenshot' style="width:300px; margin-top:15px; margin-bottom:15px; box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px, rgba(0, 0, 0, 0.024) 0px -6px 16px -6px;"/>
 
 ### 게임 링크
-[CARROT]('https://chanho-yoon.github.io/Whac-A-Carrot/')
+[CARROT](https://chanho-yoon.github.io/Whac-A-Carrot)
