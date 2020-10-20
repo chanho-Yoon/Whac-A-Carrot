@@ -1,0 +1,24 @@
+{
+  "name": "whac-a-carrot",
+  "version": "1.0.0",
+  "description": "당근 찾기 게임",
+  "main": "main.js",
+  "dependencies": {
+    "gh-pages": "^3.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chanho-Yoon/Whac-A-Carrot.git"
+  },
+  "author": "chanho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chanho-Yoon/Whac-A-Carrot/issues"
+  },
+  "homepage": "https://github.com/chanho-Yoon/Whac-A-Carrot"
+}
