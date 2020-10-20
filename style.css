@@ -1,0 +1,149 @@
+body {
+   margin           : 0;
+   padding          : 0;
+   width            : 100%;
+   height           : 100vh;
+   background-color : #080808;
+   display          : flex;
+   flex-direction   : column;
+   justify-content  : center;
+   align-items      : center;
+
+}
+
+button {
+   border     : none;
+   outline    : none;
+   cursor     : pointer;
+   transition : transform 0.3s ease-in;
+}
+
+button:hover {
+   transform : scale(1.1);
+}
+
+.game {
+   background-image    : url("img/background.png");
+   background-position : center;
+   background-size     : cover;
+   width               : 1000px;
+   height              : 600px;
+   border-radius       : 20px;
+   display             : flex;
+   flex-direction      : column;
+   align-items         : center;
+}
+
+.game__header {
+   display         : flex;
+   flex-direction  : column;
+   align-items     : center;
+   justify-content : center;
+   padding         : 10px;
+}
+
+.game__button {
+   margin-top       : 10px;
+   width            : 60px;
+   height           : 50px;
+   border           : 4px solid black;
+   background-color : #ffc28b;
+   border-radius    : 10px;
+}
+
+.game__button i {
+   font-size : 20px;
+}
+
+.timer {
+   width            : 120px;
+   text-align       : center;
+   border-radius    : 15px;
+   font-size        : 36px;
+   margin-top       : 10px;
+   border           : 4px solid black;
+   background-color : white;
+}
+
+.timer__hide {
+   visibility : hidden;
+}
+
+.score {
+   margin-top       : 10px;
+   width            : 50px;
+   height           : 50px;
+   font-size        : 30px;
+   text-align       : center;
+   background-color : #ffa260;
+   color            : white;
+   border-radius    : 50%;
+   border           : 4px solid black;
+   display          : flex;
+   align-items      : center;
+   justify-content  : center;
+}
+
+.score__hide {
+   visibility : hidden;
+}
+
+.game__field {
+   position   : relative;
+   width      : 100%;
+   height     : 100%;
+   margin-top : 100px;
+}
+
+.pop-up {
+   margin-top       : -190px;
+   width            : 400px;
+   height           : 150px;
+   border-radius    : 15px;
+   padding          : 10px;
+   background-color : rgba(0, 0, 0, 0.5);
+   display          : flex;
+   flex-direction   : column;
+   align-items      : center;
+   justify-content  : center;
+   z-index          : 0;
+}
+
+.pop-up__hide {
+   visibility : hidden;
+}
+
+.pop-up__refresh {
+   width            : 60px;
+   height           : 60px;
+   background-color : #ffc28b;
+   border           : 2px solid black;
+   border-radius    : 15px;
+   margin-bottom    : 5px;
+}
+
+.pop-up__refresh i {
+   font-size : 25px;
+}
+
+.pop-up__message {
+   color     : white;
+   font-size : 60px;
+}
+
+/* 타이머, 스코어 부분 마우스 선택 안되게*/
+.score, .timer {
+   user-select : none;
+}
+
+
+/* 이미지 css 부분*/
+.carrot:hover, .bug:hover {
+   cursor    : pointer;
+   transform : scale(1.1);
+}
+
+.carrot, .bug {
+   transition : transform 200ms ease-in;
+}
+

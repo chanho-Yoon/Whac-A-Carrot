@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport"
+         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <link rel="stylesheet" href="style.css">
+   <link
+         rel="stylesheet"
+         href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+         crossorigin="anonymous"
+   />
+   <title>당근 찾기</title>
+</head>
+<body>
+<section class="game">
+   <header class="game__header">
+      <button class="game__button">
+         <i class="fas fa-play"></i>
+      </button>
+      <span id="timer" class="timer timer__hide">0:15</span>
+      <span id="score" class="score score__hide">20</span>
+   </header>
+   <section class="game__field">
+   </section>
+</section>
+<section class="pop-up pop-up__hide">
+   <button class="pop-up__refresh">
+      <i class="fas fa-sync-alt"></i>
+   </button>
+   <span class="pop-up__message">REPLAY?</span>
+</section>
+<script src="main.js" defer></script>
+</body>
+</html>
