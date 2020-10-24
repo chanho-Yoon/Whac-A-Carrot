@@ -1,4 +1,6 @@
 'use strict';
+import PopUp from '/src/popup.js';
+
 const CARROT_SIZE = 80;
 const CARROT_COUNT = 20;
 const BUG_COUNT = 20;
@@ -11,16 +13,16 @@ const fieldRect = field.getBoundingClientRect();
 const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.timer');
 const gameScore = document.querySelector('.score');
-// 게임 팝업창 ( 메시지 )
-const popUp = document.querySelector('.pop-up');
-const popUpMessage = document.querySelector('.pop-up__message');
-const popUpRefresh = document.querySelector('.pop-up__refresh');
+
 // 게임 BGM
 const gameMainSound = new Audio('./sound/bg.mp3');
 const carrotClickSound = new Audio('./sound/carrot_pull.mp3');
 const bugClickSound = new Audio('./sound/bug_pull.mp3');
 const gameWinSound = new Audio('./sound/game_win.mp3');
 const alertSound = new Audio('./sound/alert.wav');
+
+// 팝업 모듈
+const gameFinishBanner = new PopUp();
 
 let started = false; // 게임 시작 여부 판단할 변수
 let score = 9; // 게임 스코어 저장하는 변수
@@ -40,33 +42,10 @@ function playSound( sound ) {
 			});
 	}
 }
+
 // 사운드 정지
-function stopSound(sound) {
+function stopSound( sound ) {
 	sound.pause();
-}
-
-// pop-up
-// pop-up창 숨기는 함수
-function popUpHide() {
-	popUp.classList.add('pop-up__hide');
-}
-
-// 게임 성공 pop-up창 띄우는 함수
-function gameSuccessMsg( message ) {
-	popUp.classList.remove('pop-up__hide');
-	popUpMessage.innerText = message;
-}
-
-// 게임 실패 pop-up창 띄우는 함수
-function GameFailMsg( message ) {
-	popUp.classList.remove('pop-up__hide');
-	popUpMessage.innerText = message;
-}
-
-// 게임 정지 pop-up창 띄우는 함수
-function gameStopMsg() {
-	popUp.classList.remove('pop-up__hide');
-	popUpMessage.innerHTML = '다시하기!';
 }
 
 // 게임 타임, 스코어 가리는 함수 및 스코어 초기화
@@ -139,7 +118,7 @@ function imgClickCarrotAndBug( event ) {
 // 게임 시작
 function startGame() {
 	playSound(gameMainSound);
-	popUpHide();
+	gameFinishBanner.popUpHide();
 	timeAndScoreShow();
 	initGame();
 	CountDownTime();
@@ -150,7 +129,7 @@ function stopGame() {
 	stopSound(gameMainSound);
 	removeImg();
 	timeAndScoreHide();
-	gameStopMsg();
+	gameFinishBanner.gameStopMsg();
 	clearInterval(timer);
 }
 
@@ -159,12 +138,12 @@ function finishGame( win, message ) {
 	if (win) {
 		playSound(gameWinSound);
 		gameStart();
-		gameSuccessMsg(message);
+		gameFinishBanner.gameSuccessMsg(message);
 		clearInterval(timer);
 	} else {
 		playSound(bugClickSound);
 		gameStart();
-		GameFailMsg(message);
+		gameFinishBanner.GameFailMsg(message);
 		clearInterval(timer);
 	}
 }
@@ -204,10 +183,11 @@ const addItem = ( className, count, imgPath ) => {
 	}
 };
 
-
 // 게임 시작버튼 이벤트리스너
 gameBtn.addEventListener('click', gameStart);
-popUpRefresh.addEventListener('click', gameStart);
+gameFinishBanner.setClickListener(() => {
+	gameStart();
+});
 // 이미지 클릭 이벤트리스너
 field.addEventListener('click', imgClickCarrotAndBug);
 
