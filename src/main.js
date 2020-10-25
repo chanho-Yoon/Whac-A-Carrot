@@ -1,51 +1,43 @@
 'use strict';
 import PopUp from '/src/popup.js';
+import Field from '/src/field.js';
+import * as sound from '/src/sound.js';
 
 const CARROT_SIZE = 80;
 const CARROT_COUNT = 20;
 const BUG_COUNT = 20;
 const GAME_COUNT = 15;
 
-// 게임 구역
-const field = document.querySelector('.game__field');
-const fieldRect = field.getBoundingClientRect();
 // 게임 버튼, 타이머, 스코어
 const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.timer');
 const gameScore = document.querySelector('.score');
 
-// 게임 BGM
-const gameMainSound = new Audio('./sound/bg.mp3');
-const carrotClickSound = new Audio('./sound/carrot_pull.mp3');
-const bugClickSound = new Audio('./sound/bug_pull.mp3');
-const gameWinSound = new Audio('./sound/game_win.mp3');
-const alertSound = new Audio('./sound/alert.wav');
-
 // 팝업 모듈
 const gameFinishBanner = new PopUp();
+gameFinishBanner.setClickListener(() => {
+	gameStart();
+});
+// 필드 모듈
+const gameField = new Field(CARROT_SIZE, CARROT_COUNT, BUG_COUNT);
+gameField.setClickListener(onItemClick);
 
 let started = false; // 게임 시작 여부 판단할 변수
 let score = 9; // 게임 스코어 저장하는 변수
 let timer = undefined; // setInterval 저장할 변수 ( 종료하거나 성공시 함수 종료 위해)
 let countDownSecond = undefined; // 제한시간
 
-// 사운드 재생
-function playSound( sound ) {
-	sound.currentTime = 0;
-	let promise = sound.play();
-	if (promise !== undefined) {
-		promise.then(_ => {
-			// Autoplay started
-		})
-			.catch(error => {
-				console.log('audio error : ' + error);
-			});
+// 이미지 클릭 처리 ( 점수 카운트 감소 및 성공 여부 출력 )
+function onItemClick( item ) {
+	if (item === 'carrot') {
+		score++;
+		updateScoreBoard();
+		if (score === CARROT_COUNT) {
+			finishGame(true, '성공!');
+		}
+	} else if (item === 'bug') {
+		finishGame(false, '벌레 클릭 실패!');
 	}
-}
-
-// 사운드 정지
-function stopSound( sound ) {
-	sound.pause();
 }
 
 // 게임 타임, 스코어 가리는 함수 및 스코어 초기화
@@ -92,32 +84,20 @@ function CountDownTime() {
 		}
 		// 남은 시간 4초 이내 경고 사운드
 		if (countDownSecond < 5) {
-			playSound(alertSound);
+			sound.playAlertSound();
 		}
 
 	}, 1000);
 }
 
-// 이미지 클릭 처리 ( 점수 카운트 감소 및 성공 여부 출력 )
-function imgClickCarrotAndBug( event ) {
-	let imgName = event.target.className;
-	if (imgName === 'carrot') {
-		field.removeChild(event.target);
-		score++;
-		updateScoreBoard();
-		playSound(carrotClickSound);
-		if (score === CARROT_COUNT) {
-			finishGame(true, '성공!');
-		}
-	} else if (imgName === 'bug') {
-		playSound(bugClickSound);
-		finishGame(false, '벌레 클릭 실패!');
-	}
-}
+// gameField에 랜덤으로 이미지 추가
+const initGame = () => {
+	gameField.init();
+};
 
 // 게임 시작
 function startGame() {
-	playSound(gameMainSound);
+	sound.playMainSound();
 	gameFinishBanner.popUpHide();
 	timeAndScoreShow();
 	initGame();
@@ -126,8 +106,8 @@ function startGame() {
 
 // 게임 정지
 function stopGame() {
-	stopSound(gameMainSound);
-	removeImg();
+	sound.playStopMainSound();
+	gameField.removeImg();
 	timeAndScoreHide();
 	gameFinishBanner.gameStopMsg();
 	clearInterval(timer);
@@ -136,58 +116,19 @@ function stopGame() {
 // 게임 성공, 실패에 따른 함수 실행 및 메시지 전달
 function finishGame( win, message ) {
 	if (win) {
-		playSound(gameWinSound);
+		sound.playWinSound();
 		gameStart();
 		gameFinishBanner.gameSuccessMsg(message);
 		clearInterval(timer);
 	} else {
-		playSound(bugClickSound);
+		sound.playBugSound();
 		gameStart();
 		gameFinishBanner.GameFailMsg(message);
 		clearInterval(timer);
 	}
 }
 
-// game field 이미지 삭제
-function removeImg() {
-	field.innerHTML = '';
-}
-
-// 각각의 이미지를 gameField에 위치시킬 x,y값 랜덤 구하는 함수
-const randomNumber = ( minValue, maxValue ) => Math.floor(Math.random() * ( maxValue - minValue ) + minValue);
-
-// gameField에 랜덤으로 이미지 추가
-const initGame = () => {
-	removeImg();
-	addItem('carrot', CARROT_COUNT, 'img/carrot.png');
-	addItem('bug', BUG_COUNT, 'img/bug.png');
-};
-
-// carrot,bug 이미지를 count만큼 gameField에 배치
-const addItem = ( className, count, imgPath ) => {
-	const x1 = 0;
-	const y1 = 0;
-	const x2 = fieldRect.width - CARROT_SIZE;
-	const y2 = fieldRect.height - CARROT_SIZE;
-	for (let i = 0; i < count; i++) {
-		const item = document.createElement('img');
-		item.setAttribute('class', className);
-		item.setAttribute('src', imgPath);
-		item.style.position = 'absolute';
-		const x = randomNumber(x1, x2);
-		const y = randomNumber(y1, y2);
-
-		item.style.left = `${x}px`;
-		item.style.top = `${y}px`;
-		field.appendChild(item);
-	}
-};
 
 // 게임 시작버튼 이벤트리스너
 gameBtn.addEventListener('click', gameStart);
-gameFinishBanner.setClickListener(() => {
-	gameStart();
-});
-// 이미지 클릭 이벤트리스너
-field.addEventListener('click', imgClickCarrotAndBug);
 
