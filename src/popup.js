@@ -23,7 +23,7 @@ const PopUp = class PopUp {
 	}
 
 // 게임 실패 pop-up창 띄우는 함수
-	GameFailMsg( message ) {
+	gameFailMsg( message ) {
 		this.popUp.classList.remove('pop-up__hide');
 		this.popUpMessage.innerText = message;
 	}
