@@ -80,12 +80,12 @@ const Game = class Game {
 		if (win) {
 			sound.playWinSound();
 			this.gameStart();
-
+			this.gameFinishBanner.gameSuccessMsg(message)
 			clearInterval(this.timer);
 		} else {
 			sound.playBugSound();
 			this.gameStart();
-
+			this.gameFinishBanner.gameFailMsg(message)
 			clearInterval(this.timer);
 		}
 	}
