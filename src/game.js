@@ -1,8 +1,8 @@
 'use strict';
 
-import Field from '/src/field.js';
-import * as sound from '/src/sound.js';
-import PopUp from '/src/popup.js';
+import Field from './field.js';
+import * as sound from './sound.js';
+import PopUp from './popup.js';
 
 const Game = class Game {
 	constructor( carrotSize, gameCount, carrotCount, bugCount ) {

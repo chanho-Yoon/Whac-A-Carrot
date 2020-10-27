@@ -1,6 +1,7 @@
 'use strict';
-import PopUp from '/src/popup.js';
-import Game from '/src/game.js';
+
+import PopUp from './popup.js';
+import Game from './game.js';
 
 const CARROT_SIZE = 80;
 const CARROT_COUNT = 20;
