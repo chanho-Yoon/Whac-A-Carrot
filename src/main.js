@@ -16,3 +16,22 @@ const gameFinishBanner = new PopUp();
 gameFinishBanner.setClickListener(() => {
 	game.gameStart();
 });
+
+// 콜백으로 값을 받아 pop창에 나타낼 메시지 함수 호출
+game.setGameStopListener((message) => {
+	console.log(message)
+	switch (message) {
+		case 'win':
+			gameFinishBanner.gamePopUpMessgae('성공!👍🏻')
+			break;
+		case 'cancel':
+			gameFinishBanner.gamePopUpMessgae('취소!')
+			break;
+		case 'lose':
+			gameFinishBanner.gamePopUpMessgae('실패!😂')
+			break;
+		default :
+			console.log('error')
+			break;
+	}
+})
