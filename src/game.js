@@ -11,7 +11,7 @@ const Game = class Game {
 		this.carrotCount = carrotCount;
 		this.bugCount = bugCount;
 
-// 게임 버튼, 타이머, 스코어
+		// 게임 버튼, 타이머, 스코어
 		this.gameBtn = document.querySelector('.game__button');
 		this.gameTimer = document.querySelector('.timer');
 		this.gameScore = document.querySelector('.score');
@@ -27,6 +27,11 @@ const Game = class Game {
 		this.gameField.setClickListener(this.onItemClick);
 		// 팝업 모듈
 		this.gameFinishBanner = new PopUp();
+	}
+
+	// 콜백으로 전달할 함수
+	setGameStopListener( onGameStop ) {
+		this.onGameStop = onGameStop;
 	}
 
 	// gameField에 랜덤으로 이미지 추가
@@ -53,12 +58,12 @@ const Game = class Game {
 		this.CountDownTime();
 	}
 
-// 게임 정지
+	// 게임 정지
 	stopGame() {
 		sound.playStopMainSound();
 		this.gameField.removeImg();
 		this.timeAndScoreHide();
-		this.gameFinishBanner.gameStopMsg();
+		this.onGameStop && this.onGameStop('cancel')
 		clearInterval(this.timer);
 	}
 
@@ -68,24 +73,24 @@ const Game = class Game {
 			this.score++;
 			this.updateScoreBoard();
 			if (this.score === this.carrotCount) {
-				this.finishGame(true, '성공!');
+				this.finishGame(true);
 			}
 		} else if (item === 'bug') {
-			this.finishGame(false, '벌레 클릭 실패!');
+			this.finishGame(false);
 		}
 	};
 
 	// 게임 성공, 실패에 따른 함수 실행 및 메시지 전달
-	finishGame( win, message ) {
+	finishGame( win ) {
 		if (win) {
 			sound.playWinSound();
 			this.gameStart();
-			this.gameFinishBanner.gameSuccessMsg(message)
+			this.onGameStop && this.onGameStop('win');
 			clearInterval(this.timer);
 		} else {
 			sound.playBugSound();
 			this.gameStart();
-			this.gameFinishBanner.gameFailMsg(message)
+			this.onGameStop && this.onGameStop('lose');
 			clearInterval(this.timer);
 		}
 	}
@@ -120,7 +125,7 @@ const Game = class Game {
 			this.countDownSecond -= 1;
 			// 게임 실패 ( 시간 초과 )
 			if (this.countDownSecond < 0) {
-				this.finishGame(false, '시간 초과!');
+				this.finishGame(false);
 			}
 			// 남은 시간 4초 이내 경고 사운드
 			if (this.countDownSecond < 5) {
