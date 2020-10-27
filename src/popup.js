@@ -16,22 +16,10 @@ const PopUp = class PopUp {
 	popUpHide() {
 		this.popUp.classList.add('pop-up__hide');
 	}
-	// 게임 성공 pop-up창 띄우는 함수
-	gameSuccessMsg( message ) {
+	// 게임 성공 및 실패, 취소 여부 팝업창 메시지로 띄울 함수
+	gamePopUpMessgae( message ) {
 		this.popUp.classList.remove('pop-up__hide');
 		this.popUpMessage.innerText = message;
-	}
-
-// 게임 실패 pop-up창 띄우는 함수
-	gameFailMsg( message ) {
-		this.popUp.classList.remove('pop-up__hide');
-		this.popUpMessage.innerText = message;
-	}
-
-// 게임 정지 pop-up창 띄우는 함수
-	gameStopMsg() {
-		this.popUp.classList.remove('pop-up__hide');
-		this.popUpMessage.innerHTML = '다시하기!';
 	}
 };
 
