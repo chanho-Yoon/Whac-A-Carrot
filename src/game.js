@@ -4,7 +4,39 @@ import Field from './field.js';
 import * as sound from './sound.js';
 import PopUp from './popup.js';
 
-const Game = class Game {
+// Builder Pattern
+const GameBuilder = class GameBuilder {
+	WithCarrotSize( num ) {
+		this.carrotSize = num;
+		return this;
+	}
+
+	WithGameCount( count ) {
+		this.gameCount = count;
+		return this;
+	}
+
+	WithCarrotCount( num ) {
+		this.carrotCount = num;
+		return this;
+	}
+
+	WithBugCount( num ) {
+		this.bugCount = num;
+		return this;
+	}
+
+	build() {
+		return new Game(
+			this.carrotSize,
+			this.gameCount,
+			this.carrotCount,
+			this.bugCount
+		);
+	}
+};
+
+class Game {
 	constructor( carrotSize, gameCount, carrotCount, bugCount ) {
 		this.carrotSize = carrotSize;
 		this.gameCount = gameCount;
@@ -63,7 +95,7 @@ const Game = class Game {
 		sound.playStopMainSound();
 		this.gameField.removeImg();
 		this.timeAndScoreHide();
-		this.onGameStop && this.onGameStop('cancel')
+		this.onGameStop && this.onGameStop('cancel');
 		clearInterval(this.timer);
 	}
 
@@ -102,7 +134,7 @@ const Game = class Game {
 		this.gameBtn.innerHTML = `<i class="fas fa-play"></i>`;
 	}
 
-// 게임 타임, 스코어 보여주는 함수
+	// 게임 타임, 스코어 보여주는 함수
 	timeAndScoreShow() {
 		this.gameTimer.innerHTML = `0:${this.gameCount}`;
 		this.gameScore.innerHTML = `${this.carrotCount}`;
@@ -111,12 +143,12 @@ const Game = class Game {
 		this.gameBtn.innerHTML = `<i class="fas fa-times"></i>`;
 	}
 
-// 업데이트 스코어
+	// 업데이트 스코어
 	updateScoreBoard() {
 		this.gameScore.innerText = this.carrotCount - this.score;
 	}
 
-// 시간제한 카운트 다운 시작
+	// 시간제한 카운트 다운 시작
 	CountDownTime() {
 		this.score = 0;
 		this.countDownSecond = this.gameCount;
@@ -135,5 +167,6 @@ const Game = class Game {
 		}, 1000);
 
 	};
-};
-export default Game;
+}
+
+export default GameBuilder;
