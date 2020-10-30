@@ -8,6 +8,7 @@ body {
    flex-direction   : column;
    justify-content  : center;
    align-items      : center;
+   position         : relative;
 
 }
 
@@ -49,6 +50,10 @@ button:hover {
    border           : 4px solid black;
    background-color : #ffc28b;
    border-radius    : 10px;
+}
+
+.game__button-hide {
+   visibility : hidden;
 }
 
 .game__button i {
@@ -147,3 +152,14 @@ button:hover {
    transition : transform 200ms ease-in;
 }
 
+.bug {
+   transition : all 1500ms ease-in-out;
+}
+
+/*게임 레벨 부분*/
+.game__level {
+   top       : 110px;
+   position  : absolute;
+   color     : white;
+   font-size : 35px;
+}
