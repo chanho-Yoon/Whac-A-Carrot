@@ -107,7 +107,7 @@ class Game {
 		}
 	};
 
-	// 게임 난이도 화면에 출력
+	// 게임 난이도 설정 및 화면에 출력
 	levelUp( reason ) {
 		switch (reason) {
 			case Reason.win:
