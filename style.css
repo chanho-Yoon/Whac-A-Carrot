@@ -158,8 +158,8 @@ button:hover {
 
 /*게임 레벨 부분*/
 .game__level {
-   top       : 110px;
-   position  : absolute;
+   top       : -20px;
+   position  : relative;
    color     : white;
    font-size : 35px;
 }
