@@ -134,7 +134,7 @@ class Game {
 		this.initGame();
 		this.timeAndScoreShow();
 		this.countDownTime();
-		this.randomMoveBug();
+		this.setIntervalAndExecute(this.randomMoveBug, 2);
 	}
 
 	// 게임 정지
@@ -143,6 +143,7 @@ class Game {
 		this.gameField.removeImg();
 		this.timeAndScoreHide();
 		this.onGameStop && this.onGameStop(reason);
+		this.gameField.bugArray = [];
 		clearInterval(this.timer);
 		clearInterval(this.bugTimer);
 	}
@@ -169,6 +170,7 @@ class Game {
 	updateScoreBoard() {
 		this.gameScore.innerText = this.carrotCount - this.score;
 	}
+
 	// 랜덤한 위치로 움직이는 벌레
 	moveBug() {
 		const x1 = 0;
@@ -176,7 +178,7 @@ class Game {
 		const x2 = this.gameField.fieldRect.width - this.carrotSize;
 		const y2 = this.gameField.fieldRect.height - this.carrotSize;
 
-		for(let i=0; i < this.gameField.bugArray.length; i++) {
+		for (let i = 0; i < this.gameField.bugArray.length; i++) {
 			let x = this.gameField.randomNumber(x1, x2);
 			const y = this.gameField.randomNumber(y1, y2);
 			this.gameField.bugArray[i].style.left = `${x}px`;
@@ -202,9 +204,16 @@ class Game {
 			}
 		}, 1000);
 	};
-	randomMoveBug() {
-		this.bugTimer = setInterval(() => {
-			this.moveBug()
-		},2000)
+
+	// setIntervalAndExecute 함수의 파라미터로 전달될 callback 함수
+	randomMoveBug = () => {
+		this.moveBug();
+	};
+
+	setIntervalAndExecute( callback, second ) {
+		setTimeout(callback, 100);
+		this.bugTimer = setInterval(callback, second * 1000);
+		return this.bugTimer;
 	}
 }
+
