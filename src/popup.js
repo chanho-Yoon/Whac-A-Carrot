@@ -17,7 +17,7 @@ const PopUp = class PopUp {
 		this.popUp.classList.add('pop-up__hide');
 	}
 	// 게임 성공 및 실패, 취소 여부 팝업창 메시지로 띄울 함수
-	gamePopUpMessgae( message ) {
+	gamePopUpMessage( message ) {
 		this.popUp.classList.remove('pop-up__hide');
 		this.popUpMessage.innerText = message;
 	}

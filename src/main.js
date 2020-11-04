@@ -46,5 +46,5 @@ game.setGameStopListener(( reason ) => {
 			console.log('error');
 			break;
 	}
-	gameFinishBanner.gamePopUpMessgae(message);
+	gameFinishBanner.gamePopUpMessage(message);
 });
